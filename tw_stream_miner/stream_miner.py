@@ -28,7 +28,7 @@ tweets = stream.statuses.filter(track=env['HASH_TAGS'])
 for tweet in tweets:
     if 'RT' not in tweet['text']:
         print tweet['text']
-        msg_info = client.publish('jojo_snls/dj_jojo_test', tweet['text'])
+        msg_info = client.publish(env['TW_STREAM_TOPIC'], tweet['text'])
 
         if not msg_info.is_published():
                 print('Message is not yet published.')
