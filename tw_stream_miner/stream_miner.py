@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 from os import environ as env
+import logging
 import paho.mqtt.client as paho
 from twitter import OAuth, TwitterStream
 
+#Log file definition
+logging.basicConfig(filename=env['LOG_FILE'],level=logging.DEBUG)
 
 # CloudMQTT config items
 def on_publish(client, userdata, mid):
-    print("mid: "+str(mid))
+    logging.info("mid: "+str(mid))
 
 
 client = paho.Client()
@@ -27,8 +30,8 @@ tweets = stream.statuses.filter(track=env['HASH_TAGS'])
 
 for tweet in tweets:
     if 'RT' not in tweet['text']:
-        print tweet['text']
+        logging.debug(tweet['text'])
         msg_info = client.publish(env['TW_STREAM_TOPIC'], tweet['text'])
 
         if not msg_info.is_published():
-                print('Message is not yet published.')
+            logging.error('Message is not yet published.')
