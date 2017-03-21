@@ -14,7 +14,7 @@ def on_publish(client, userdata, mid):
 
 client = paho.Client()
 client.on_publish = on_publish
-client.connect('localhost', 1833)
+client.connect('localhost', 8833)
 
 
 # Twitter app config items
